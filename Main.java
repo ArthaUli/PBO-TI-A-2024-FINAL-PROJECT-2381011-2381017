@@ -18,8 +18,12 @@ public class Main {
         TampilkanDaftarPasien tampilkanDaftarPasien = new TampilkanDaftarPasien();
 
         MainViews mainViews = new MainViews(
-                pendaftaranPasien, cariPasien, editDataPasien,
-                hapusDataPasien, jumlahPasien, tampilkanDaftarPasien
+                pendaftaranPasien,
+                cariPasien,
+                editDataPasien,
+                hapusDataPasien,
+                jumlahPasien,
+                tampilkanDaftarPasien
         );
 
         mainViews.jalankanMenu();
