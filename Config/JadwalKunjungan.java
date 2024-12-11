@@ -1,4 +1,4 @@
-package Util;
+package Config;
 
 public class JadwalKunjungan {
     public void tampilkanJadwal() {

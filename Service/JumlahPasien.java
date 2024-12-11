@@ -1,12 +1,9 @@
-
 package Service;
 
-import Model.Pasien;
-
-import java.util.ArrayList;
+import Repository.PasienRepository;
 
 public class JumlahPasien {
-    public void jumlah(ArrayList<Pasien> daftarPasien) {
-        System.out.println("Jumlah pasien saat ini: " + daftarPasien.size());
+    public void jumlah(PasienRepository repository) {
+        System.out.println("Jumlah pasien saat ini: " + repository.getDaftarPasien().size());
     }
 }

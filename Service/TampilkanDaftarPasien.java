@@ -1,17 +1,17 @@
 package Service;
 
-import Model.Pasien;
-
-import java.util.ArrayList;
+import Entities.Pasien;
+import Repository.PasienRepository;
 
 public class TampilkanDaftarPasien {
-    public void tampilkan(ArrayList<Pasien> daftarPasien) {
-        if (daftarPasien.isEmpty()) {
+    public void tampilkan(PasienRepository repository) {
+        if (repository.getDaftarPasien().isEmpty()) {
             System.out.println("Tidak ada pasien yang terdaftar.");
         } else {
             System.out.println("=== Daftar Pasien ===");
-            for (int i = 0; i < daftarPasien.size(); i++) {
-                System.out.println((i + 1) + ". " + daftarPasien.get(i));
+            int i = 1;
+            for (Pasien pasien : repository.getDaftarPasien()) {
+                System.out.println((i++) + ". " + pasien);
             }
         }
     }
