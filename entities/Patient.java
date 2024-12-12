@@ -42,4 +42,5 @@ public class Patient extends Person {
                 ", Keluhan: " + complaint + ", Tipe Kamar: " + roomType +
                 ", Dokter: " + selectedDoctor;
     }
+
 }
