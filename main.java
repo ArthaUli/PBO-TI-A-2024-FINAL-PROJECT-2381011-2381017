@@ -1,14 +1,15 @@
 import repository.PatientRepositoryImpl;
+import entities.Patient;
 import service.PatientService;
 import view.ConsoleView;
 
 public class main {
     public static void main(String[] args) {
+        // Gunakan implementasi yang benar
+        PatientRepositoryImpl repository = new PatientRepositoryImpl();
+        PatientService service = new PatientService(repository);
+        ConsoleView view = new ConsoleView(service);
 
-        var patientRepository = new PatientRepositoryImpl();
-        var patientService = new PatientService(patientRepository);
-        var consoleView = new ConsoleView(patientService);
-
-        consoleView.showMainMenu();
+        view.showMainMenu();
     }
 }
