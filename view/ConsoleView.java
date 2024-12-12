@@ -23,7 +23,8 @@ public class ConsoleView {
             System.out.println("4. Edit Data Pasien");
             System.out.println("5. Hapus Data Pasien");
             System.out.println("6. Jumlah Pasien Terdaftar");
-            System.out.println("7. Keluar Dari Program");
+            System.out.println("7. Jadwal Kunjungan Pasien");
+            System.out.println("8. Keluar Dari Program");
             System.out.print("Masukkan opsi ke-: ");
 
             if (!scanner.hasNextInt()) {
@@ -33,7 +34,7 @@ public class ConsoleView {
             }
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Membersihkan newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1 -> registerNewPatient();
@@ -42,7 +43,8 @@ public class ConsoleView {
                 case 4 -> editPatient();
                 case 5 -> deletePatient();
                 case 6 -> showPatientCount();
-                case 7 -> {
+                case 7 -> showVisitSchedule();
+                case 8 -> {
                     System.out.println("Terima kasih telah menggunakan aplikasi. Sampai jumpa!");
                     return;
                 }
@@ -138,5 +140,12 @@ public class ConsoleView {
     private void showPatientCount() {
         int count = patientService.getPatientCount();
         System.out.println("\nJumlah pasien yang terdaftar: " + count);
+    }
+
+    private void showVisitSchedule() {
+        System.out.println("\n=== Jadwal Kunjungan Pasien ===");
+        System.out.println("Minggu - Kamis: 10:00 - 10:00 (24 Jam)");
+        System.out.println("Jumat: 10:00 - 17:00");
+        System.out.println("Sabtu: Tutup (Closed)");
     }
 }
