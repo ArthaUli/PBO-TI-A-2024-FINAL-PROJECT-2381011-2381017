@@ -1,8 +1,8 @@
 package view;
 
 import config.DatabaseConfig;
-import Entities.Patient;
-import Service.PatientService;
+import entities.Patient;
+import service.PatientService;
 import java.util.Scanner;
 
 public class ConsoleView {

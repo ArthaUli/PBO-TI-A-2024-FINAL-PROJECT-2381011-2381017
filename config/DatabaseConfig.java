@@ -1,7 +1,7 @@
 package config;
 
 import java.util.ArrayList;
-import Entities.Patient;
+import entities.Patient;
 
 public class DatabaseConfig {
     private static ArrayList<Patient> patients = new ArrayList<>();

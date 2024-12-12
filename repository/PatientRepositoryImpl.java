@@ -1,7 +1,7 @@
 package repository;
 
 import config.DatabaseConfig;
-import Entities.Patient;
+import entities.Patient;
 import java.util.ArrayList;
 import java.util.Optional;
 
