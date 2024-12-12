@@ -1,7 +1,7 @@
-package Repository;
+package repository;
 
-import Config.DatabaseConfig;
-import entities.Patient;
+import config.DatabaseConfig;
+import Entities.Patient;
 import java.util.ArrayList;
 import java.util.Optional;
 

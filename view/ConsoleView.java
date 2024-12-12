@@ -1,6 +1,6 @@
-package View;
+package view;
 
-import Config.DatabaseConfig;
+import config.DatabaseConfig;
 import Entities.Patient;
 import Service.PatientService;
 import java.util.Scanner;

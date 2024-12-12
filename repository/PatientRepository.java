@@ -1,6 +1,6 @@
-package Repository;
+package repository;
 
-import entities.Patient;
+import Entities.Patient;
 import java.util.ArrayList;
 import java.util.Optional;
 
