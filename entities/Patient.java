@@ -5,7 +5,7 @@ public class Patient extends Person {
     private String roomType;
     private String selectedDoctor;
 
-    public Patient(String name, int age, String address, String complaint, String roomType, String selectedDoctor) {
+    public Patient(String name, int age, String address, String complaint, String roomType) {
         super(name, age, address);
         this.complaint = complaint;
         this.roomType = roomType;

@@ -66,10 +66,8 @@ public class ConsoleView {
         String complaint = scanner.nextLine();
         System.out.print("Masukkan tipe kamar (Umum/VIP): ");
         String roomType = scanner.nextLine();
-        System.out.print("Masukkan nama dokter: ");
-        String doctor = scanner.nextLine();
 
-        Patient newPatient = new Patient(name, age, address, complaint, roomType, doctor);
+        Patient newPatient = new Patient(name, age, address, complaint, roomType);
         if (patientService.registerNewPatient(newPatient)) {
             System.out.println("Pendaftaran berhasil!");
         } else {
@@ -119,7 +117,7 @@ public class ConsoleView {
         System.out.print("Dokter: ");
         String newDoctor = scanner.nextLine();
 
-        Patient updatedPatient = new Patient(newName, newAge, newAddress, newComplaint, newRoomType, newDoctor);
+        Patient updatedPatient = new Patient(newName, newAge, newAddress, newComplaint, newRoomType);
         if (patientService.updatePatient(name, updatedPatient)) {
             System.out.println("Data pasien berhasil diperbarui.");
         } else {

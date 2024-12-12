@@ -29,15 +29,4 @@ public class DatabaseConfig {
     public static void decrementOccupiedRooms() {
         occupiedRooms--;
     }
-
-    public static final String[] DOCTORS = {
-            "Dr. Siburian (Poli Gigi)",
-            "Dr. Lupita (Poli Gigi)",
-            "Dr. Oji (Radiologi)",
-            "Dr. Yohanes (Poli Mata)",
-            "Dr. Artha (Jantung)",  // Ensure the name fits the context
-            "Dr. Delon (THT)",
-            "Dr. Arthur (Penyakit Dalam)",
-            "Dr. Samuel (Dokter Umum)"
-    };
 }
