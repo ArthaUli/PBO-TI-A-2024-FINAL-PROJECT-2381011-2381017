@@ -4,11 +4,12 @@ import view.ConsoleView;
 
 public class main {
     public static void main(String[] args) {
-        // Gunakan implementasi yang benar
-        PatientRepositoryImpl repository = new PatientRepositoryImpl();
-        PatientService service = new PatientService(repository);
-        ConsoleView view = new ConsoleView(service);
+        // Setup dependencies
+        var patientRepository = new PatientRepositoryImpl();
+        var patientService = new PatientService(patientRepository);
+        var consoleView = new ConsoleView(patientService);
 
-        view.showMainMenu();
+        // Run the application
+        consoleView.showMainMenu();
     }
 }

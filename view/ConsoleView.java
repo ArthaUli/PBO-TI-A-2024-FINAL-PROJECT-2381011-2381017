@@ -1,6 +1,5 @@
 package view;
 
-import config.DatabaseConfig;
 import entities.Patient;
 import service.PatientService;
 import java.util.Scanner;
@@ -24,8 +23,7 @@ public class ConsoleView {
             System.out.println("4. Edit Data Pasien");
             System.out.println("5. Hapus Data Pasien");
             System.out.println("6. Jumlah Pasien Terdaftar");
-            System.out.println("7. Lihat Jadwal Kunjungan");
-            System.out.println("8. Keluar Dari Program");
+            System.out.println("7. Keluar Dari Program");
             System.out.print("Masukkan opsi ke-: ");
 
             if (!scanner.hasNextInt()) {
@@ -35,7 +33,7 @@ public class ConsoleView {
             }
 
             int choice = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // Membersihkan newline
 
             switch (choice) {
                 case 1 -> registerNewPatient();
@@ -44,8 +42,7 @@ public class ConsoleView {
                 case 4 -> editPatient();
                 case 5 -> deletePatient();
                 case 6 -> showPatientCount();
-                case 7 -> showVisitingHours();
-                case 8 -> {
+                case 7 -> {
                     System.out.println("Terima kasih telah menggunakan aplikasi. Sampai jumpa!");
                     return;
                 }
@@ -55,167 +52,91 @@ public class ConsoleView {
     }
 
     private void registerNewPatient() {
+        System.out.println("\n=== Pendaftaran Pasien Baru ===");
         System.out.print("Masukkan nama pasien: ");
-        String name = scanner.nextLine().trim();
+        String name = scanner.nextLine();
         System.out.print("Masukkan umur pasien: ");
-
-        int age;
-        try {
-            age = scanner.nextInt();
-            scanner.nextLine();
-        } catch (Exception e) {
-            System.out.println("Input tidak valid, umur harus berupa angka.");
-            scanner.nextLine(); // Bersihkan buffer
-            return;
-        }
-
+        int age = scanner.nextInt();
+        scanner.nextLine(); // Membersihkan newline
         System.out.print("Masukkan alamat pasien: ");
-        String address = scanner.nextLine().trim();
+        String address = scanner.nextLine();
         System.out.print("Masukkan keluhan pasien: ");
-        String complaint = scanner.nextLine().trim();
-
-        String roomType = selectRoomType();
-        String doctor = selectDoctor();
+        String complaint = scanner.nextLine();
+        System.out.print("Masukkan tipe kamar (Umum/VIP): ");
+        String roomType = scanner.nextLine();
+        System.out.print("Masukkan nama dokter: ");
+        String doctor = scanner.nextLine();
 
         Patient newPatient = new Patient(name, age, address, complaint, roomType, doctor);
         if (patientService.registerNewPatient(newPatient)) {
-            System.out.println("Pasien berhasil didaftarkan.");
+            System.out.println("Pendaftaran berhasil!");
         } else {
-            System.out.println("Maaf, semua ruangan sudah penuh.");
-        }
-    }
-
-    private String selectRoomType() {
-        while (true) {
-            System.out.println("\nTipe Kamar yang Tersedia:");
-            System.out.println("1. Sederhana");
-            System.out.println("2. Standar");
-            System.out.println("3. VIP");
-            System.out.print("Masukkan pilihan tipe kamar: ");
-
-            if (!scanner.hasNextInt()) {
-                System.out.println("Input tidak valid, harap masukkan angka.");
-                scanner.nextLine();
-                continue;
-            }
-
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            return switch (choice) {
-                case 1 -> "Sederhana";
-                case 2 -> "Standar";
-                case 3 -> "VIP";
-                default -> {
-                    System.out.println("Pilihan tidak valid, silakan coba lagi.");
-                    yield null;
-                }
-            };
-        }
-    }
-
-    private String selectDoctor() {
-        while (true) {
-            System.out.println("\nDaftar Dokter yang Tersedia:");
-            for (int i = 0; i < DatabaseConfig.DOCTORS.length; i++) {
-                System.out.println((i + 1) + ". " + DatabaseConfig.DOCTORS[i]);
-            }
-            System.out.print("Masukkan nomor dokter yang ingin dipilih: ");
-
-            if (!scanner.hasNextInt()) {
-                System.out.println("Input tidak valid, harap masukkan angka.");
-                scanner.nextLine();
-                continue;
-            }
-
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            if (choice >= 1 && choice <= DatabaseConfig.DOCTORS.length) {
-                return DatabaseConfig.DOCTORS[choice - 1];
-            }
-            System.out.println("Pilihan tidak valid, silakan coba lagi.");
+            System.out.println("Kamar penuh. Pendaftaran gagal.");
         }
     }
 
     private void showAllPatients() {
-        var patients = patientService.getAllPatients();
-        if (patients.isEmpty()) {
-            System.out.println("Belum ada pasien yang terdaftar.");
-        } else {
-            System.out.println("Daftar Pasien:");
-            patients.forEach(System.out::println);
+        System.out.println("\n=== Daftar Semua Pasien ===");
+        for (Patient patient : patientService.getAllPatients()) {
+            System.out.println(patient);
         }
     }
 
     private void searchPatient() {
-        System.out.print("Masukkan nama pasien yang dicari: ");
-        String name = scanner.nextLine().trim();
+        System.out.print("\nMasukkan nama pasien yang ingin dicari: ");
+        String name = scanner.nextLine();
         patientService.findPatient(name)
                 .ifPresentOrElse(
-                        patient -> System.out.println("Data Pasien Ditemukan: " + patient),
-                        () -> System.out.println("Pasien dengan nama tersebut tidak ditemukan.")
+                        patient -> System.out.println("\nDetail Pasien:\n" + patient),
+                        () -> System.out.println("Pasien tidak ditemukan.")
                 );
     }
 
     private void editPatient() {
-        System.out.print("Masukkan nama pasien yang ingin diedit: ");
-        String name = scanner.nextLine().trim();
+        System.out.print("\nMasukkan nama pasien yang ingin diubah: ");
+        String name = scanner.nextLine();
+        var optionalPatient = patientService.findPatient(name);
 
-        var patientOpt = patientService.findPatient(name);
-        if (patientOpt.isPresent()) {
-            Patient patient = patientOpt.get();
+        if (optionalPatient.isEmpty()) {
+            System.out.println("Pasien tidak ditemukan.");
+            return;
+        }
 
-            System.out.print("Masukkan nama baru (tekan Enter untuk melewati): ");
-            String newName = scanner.nextLine().trim();
-            if (!newName.isEmpty()) {
-                patient.setName(newName);
-            }
+        System.out.println("\nMasukkan data baru untuk pasien.");
+        System.out.print("Nama: ");
+        String newName = scanner.nextLine();
+        System.out.print("Umur: ");
+        int newAge = scanner.nextInt();
+        scanner.nextLine(); // Membersihkan newline
+        System.out.print("Alamat: ");
+        String newAddress = scanner.nextLine();
+        System.out.print("Keluhan: ");
+        String newComplaint = scanner.nextLine();
+        System.out.print("Tipe Kamar (Umum/VIP): ");
+        String newRoomType = scanner.nextLine();
+        System.out.print("Dokter: ");
+        String newDoctor = scanner.nextLine();
 
-            System.out.print("Masukkan umur baru (0 jika tidak ingin mengubah): ");
-            int newAge = scanner.nextInt();
-            scanner.nextLine();
-            if (newAge > 0) {
-                patient.setAge(newAge);
-            }
-
-            System.out.print("Masukkan alamat baru (tekan Enter untuk melewati): ");
-            String newAddress = scanner.nextLine().trim();
-            if (!newAddress.isEmpty()) {
-                patient.setAddress(newAddress);
-            }
-
-            System.out.print("Masukkan keluhan baru (tekan Enter untuk melewati): ");
-            String newComplaint = scanner.nextLine().trim();
-            if (!newComplaint.isEmpty()) {
-                patient.setComplaint(newComplaint);
-            }
-
-            if (patientService.updatePatient(name, patient)) {
-                System.out.println("Data pasien berhasil diubah.");
-            }
+        Patient updatedPatient = new Patient(newName, newAge, newAddress, newComplaint, newRoomType, newDoctor);
+        if (patientService.updatePatient(name, updatedPatient)) {
+            System.out.println("Data pasien berhasil diperbarui.");
         } else {
-            System.out.println("Pasien dengan nama " + name + " tidak ditemukan.");
+            System.out.println("Gagal memperbarui data pasien.");
         }
     }
 
     private void deletePatient() {
-        System.out.print("Masukkan nama pasien yang ingin dihapus: ");
-        String name = scanner.nextLine().trim();
-
+        System.out.print("\nMasukkan nama pasien yang ingin dihapus: ");
+        String name = scanner.nextLine();
         if (patientService.deletePatient(name)) {
-            System.out.println("Pasien dengan nama " + name + " berhasil dihapus.");
+            System.out.println("Data pasien berhasil dihapus.");
         } else {
-            System.out.println("Pasien dengan nama tersebut tidak ditemukan.");
+            System.out.println("Pasien tidak ditemukan.");
         }
     }
 
     private void showPatientCount() {
-        System.out.println("Jumlah pasien terdaftar: " + patientService.getPatientCount());
-    }
-
-    private void showVisitingHours() {
-        System.out.println("Jadwal kunjungan rumah sakit:");
-        System.out.println("Senin - Minggu: 10:00 - 18:00");
+        int count = patientService.getPatientCount();
+        System.out.println("\nJumlah pasien yang terdaftar: " + count);
     }
 }
